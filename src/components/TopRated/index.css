@@ -1,0 +1,21 @@
+.TopRatedBg {
+  min-height: 100vh;
+  padding: 10px;
+  background-color: black;
+}
+
+.TopRatedHead {
+  color: white;
+  font-size: 45px;
+  text-align: center;
+  text-decoration: underline navy;
+  margin: 0px;
+}
+
+.TopRatedUl {
+  list-style-type: none;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  padding: 0px;
+}
