@@ -1,53 +1,42 @@
-import {Component} from 'react'
 import MovieItem from '../MovieItem'
+import Header from '../Header'
+import Pagination from '../Pagination'
+import PageContext from '../../context/PageContext'
 import './index.css'
 
-class SearchedResults extends Component {
-  state = {
-    searchList: [],
-  }
+const SearchedResults = () => {
+  const renderMoviesList = searchResponse => {
+    const {results} = searchResponse
 
-  componentDidMount() {
-    this.getSearchResults()
-  }
-
-  getSearchResults = async () => {
-    const {searchInput} = this.props
-    const MOVIE_NAME = searchInput
-    const API_KEY = '2b6bed2ca7d926b4afadfb343eebefad'
-    const searchedMovieUrl = `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&language=en-US&query=${MOVIE_NAME}&page=1`
-    const options = {
-      method: 'GET',
-    }
-    const response = await fetch(searchedMovieUrl, options)
-    const data = await response.json()
-
-    const updatedSearchList = data.results.map(each => ({
-      id: each.id,
-      posterPath: each.poster_path,
-      title: each.title,
-      rating: each.vote_average,
-    }))
-
-    this.setState({
-      searchList: updatedSearchList,
-    })
-  }
-
-  render() {
-    const {searchList} = this.state
     return (
-      <>
-        <div className="TopRatedBg">
-          <h1 className="TopRatedHead">Searched Results</h1>
-          <ul className="TopRatedUl">
-            {searchList.map(each => (
-              <MovieItem key={each.id} movieDetails={each} />
-            ))}
-          </ul>
-        </div>
-      </>
+      <ul className="TopRatedUl">
+        {results?.map(each => (
+          <MovieItem key={each.id} movieDetails={each} />
+        ))}
+      </ul>
     )
   }
+
+  return (
+    <PageContext.Consumer>
+      {value => {
+        const {searchResponse, onTriggerSearchBtn} = value
+        return (
+          <div className="TopRatedBg">
+            <Header />
+            <div className="TopRatedBg">
+              <h1 className="TopRatedHead">Search Results</h1>
+              {renderMoviesList(searchResponse)}
+            </div>
+            <Pagination
+              totalPages={searchResponse.totalPages}
+              apiCallBack={onTriggerSearchBtn}
+            />
+          </div>
+        )
+      }}
+    </PageContext.Consumer>
+  )
 }
+
 export default SearchedResults

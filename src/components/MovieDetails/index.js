@@ -1,5 +1,6 @@
 import {Component} from 'react'
 import Header from '../Header'
+import MainImg from './styleJs'
 import './index.css'
 
 class MovieDetails extends Component {
@@ -24,6 +25,7 @@ class MovieDetails extends Component {
     const options = {
       method: 'GET',
     }
+
     const response = await fetch(movieDetailsUrl, options)
     const data = await response.json()
     const updatedObj = {
@@ -40,7 +42,7 @@ class MovieDetails extends Component {
 
     this.setState({
       movieObj: updatedObj,
-      genresList: updatedObj.genres,
+      genresList: data.genres,
     })
   }
 
@@ -54,6 +56,7 @@ class MovieDetails extends Component {
     const options = {
       method: 'GET',
     }
+
     const response = await fetch(movieCastUrl, options)
     const data = await response.json()
     const castData = data.cast
@@ -63,6 +66,7 @@ class MovieDetails extends Component {
       name: each.name,
       profilePath: each.profile_path,
     }))
+
     this.setState({
       castList: updatedCastList,
     })
@@ -79,22 +83,26 @@ class MovieDetails extends Component {
     const {
       backdropPath,
       overview,
-      // posterPath,
+      posterPath,
       releaseDate,
       runtime,
       title,
       rating,
     } = movieObj
-    console.log(genresList)
+
     return (
       <>
         <Header />
         <div className="MovieDetailsBg">
-          <img
-            className="MovieMainImg"
-            src={`https://image.tmdb.org/t/p/original/${backdropPath}`}
-            alt="Movie"
-          />
+          <MainImg
+            backimageurl={`https://image.tmdb.org/t/p/original/${backdropPath}`}
+          >
+            <img
+              className="MovieMainImg"
+              src={`https://image.tmdb.org/t/p/original/${posterPath}`}
+              alt="Movie"
+            />
+          </MainImg>
           <div className="DetailsCont">
             <h1 className="MovieName">{title}</h1>
             <div className="DetailCont">
@@ -111,11 +119,11 @@ class MovieDetails extends Component {
                 <p className="DetailPara">{this.minsToHrs(runtime)}</p>
               </div>
               <div className="DetailCont">
-                <h1 className="DetailHead">Genre</h1>
+                <h1 className="DetailHead">Genres</h1>
                 <ul className="DetailParaUl">
-                  {genresList.map(e => (
-                    <li key={e.id} className="DetailParaLi">
-                      {e.name}
+                  {genresList.map(genre => (
+                    <li key={genre.id} className="DetailParaLi">
+                      {genre.name}
                     </li>
                   ))}
                 </ul>
@@ -144,4 +152,5 @@ class MovieDetails extends Component {
     )
   }
 }
+
 export default MovieDetails

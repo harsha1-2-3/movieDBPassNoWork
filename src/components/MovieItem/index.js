@@ -3,7 +3,7 @@ import './index.css'
 
 const MovieItem = props => {
   const {movieDetails} = props
-  const {id, title, rating, posterPath} = movieDetails
+  const {id, title, voteAverage, posterPath} = movieDetails
 
   return (
     <li className="MovieLi">
@@ -13,14 +13,14 @@ const MovieItem = props => {
         src={`https://image.tmdb.org/t/p/w500${posterPath}`}
       />
       <div className="TitleVoteCont">
-        <h1 className="Title">title:{title}</h1>
+        <h1 className="Title">{title}</h1>
         <div className="VoteCont">
           <img
             className="VoteImg"
             alt="star"
             src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT7BXcaq69fKCWDFtAjWJZlDzl0pU1dPZpfTw&usqp=CAU"
           />
-          <p className="Vote">{Math.floor(rating)}</p>
+          <p className="Vote">{Math.floor(voteAverage)}</p>
         </div>
       </div>
       <button type="button" className="ViewBtn">
