@@ -19,8 +19,9 @@ class App extends Component {
 
   onTriggerSearchBtn = async (pageNo = 1) => {
     const {searchInput} = this.state
+    const MOVIE_NAME = searchInput
     const API_KEY = '2b6bed2ca7d926b4afadfb343eebefad'
-    const searchedMovieUrl = `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&language=en-US&query=${searchInput}&page=${pageNo}`
+    const searchedMovieUrl = `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&language=en-US&query=${MOVIE_NAME}&page=${pageNo}`
 
     const options = {
       method: 'GET',
@@ -54,13 +55,15 @@ class App extends Component {
           onChangeSearch: this.onChangeSearch,
         }}
       >
-        <Switch>
-          <Route exact path="/" component={Popular} />
-          <Route exact path="/top-rated" component={TopRated} />
-          <Route exact path="/upcoming" component={Upcoming} />
-          <Route exact path="/movie-details/:id" component={MovieDetails} />
-          <Route exact path="/searched" component={SearchedResults} />
-        </Switch>
+        <div className="MovieDBBg">
+          <Switch>
+            <Route exact path="/" component={Popular} />
+            <Route exact path="/top-rated" component={TopRated} />
+            <Route exact path="/upcoming" component={Upcoming} />
+            <Route exact path="/movie/:id" component={MovieDetails} />
+            <Route exact path="/searched" component={SearchedResults} />
+          </Switch>
+        </div>
       </PageContext.Provider>
     )
   }

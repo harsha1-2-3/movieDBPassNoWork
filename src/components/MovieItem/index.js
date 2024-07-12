@@ -24,7 +24,7 @@ const MovieItem = props => {
         </div>
       </div>
       <button type="button" className="ViewBtn">
-        <Link className="ViewBtnLink" to={`/movie-details/${id}`}>
+        <Link className="ViewBtnLink" to={`/movie/${id}`}>
           View Details
         </Link>
       </button>

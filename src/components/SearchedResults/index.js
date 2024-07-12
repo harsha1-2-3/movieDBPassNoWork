@@ -7,10 +7,13 @@ import './index.css'
 const SearchedResults = () => {
   const renderMoviesList = searchResponse => {
     const {results} = searchResponse
+    if (!results) {
+      return <div>Loading...</div>
+    }
 
     return (
       <ul className="TopRatedUl">
-        {results?.map(each => (
+        {results.map(each => (
           <MovieItem key={each.id} movieDetails={each} />
         ))}
       </ul>

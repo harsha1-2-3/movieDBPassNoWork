@@ -6,7 +6,7 @@ import './index.css'
 
 class TopRated extends Component {
   state = {
-    popularList: [],
+    popularList: {},
   }
 
   componentDidMount() {
@@ -42,10 +42,13 @@ class TopRated extends Component {
 
   renderPopular = () => {
     const {popularList} = this.state
+    if (!popularList.results) {
+      return <div>Loading...</div>
+    }
 
     return (
       <ul className="TopRatedUl">
-        {popularList?.results?.map(eachPopular => (
+        {popularList.results.map(eachPopular => (
           <MovieItem key={eachPopular.id} movieDetails={eachPopular} />
         ))}
       </ul>

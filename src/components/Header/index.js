@@ -8,11 +8,10 @@ const Header = props => {
       {value => {
         const {onTriggerSearchBtn, onChangeSearch, searchInput} = value
         const onChangeHandler = event => onChangeSearch(event.target.value)
-        const onSearchHandler = event => {
-          event.preventDefault()
+        const onSearchHandler = () => {
           const {history} = props
           onTriggerSearchBtn()
-          history.push('/searched')
+          history.replace('/searched')
         }
         return (
           <div className="InputCont">
@@ -37,29 +36,27 @@ const Header = props => {
   )
 
   return (
-    <>
-      <nav className="HeaderBg">
-        <h1 className="LogoHead">MovieDB</h1>
-        {renderSearchBar()}
-        <ul className="LinksCont">
-          <li>
-            <Link to="/" className="Link">
-              Popular
-            </Link>
-          </li>
-          <li>
-            <Link to="/top-rated" className="Link">
-              Top Rated
-            </Link>
-          </li>
-          <li>
-            <Link to="/upcoming" className="Link">
-              Upcoming
-            </Link>
-          </li>
-        </ul>
-      </nav>
-    </>
+    <nav className="HeaderBg">
+      <h1 className="LogoHead">MovieDB</h1>
+      {renderSearchBar()}
+      <ul className="LinksCont">
+        <li>
+          <Link to="/" className="Link">
+            Popular
+          </Link>
+        </li>
+        <li>
+          <Link to="/top-rated" className="Link">
+            Top Rated
+          </Link>
+        </li>
+        <li>
+          <Link to="/upcoming" className="Link">
+            Upcoming
+          </Link>
+        </li>
+      </ul>
+    </nav>
   )
 }
 
