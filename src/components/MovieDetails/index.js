@@ -1,5 +1,5 @@
 import {Component} from 'react'
-import Header from '../Header'
+import NavBar from '../NavBar'
 import MainImg from './styleJs'
 import './index.css'
 
@@ -92,7 +92,7 @@ class MovieDetails extends Component {
 
     return (
       <>
-        <Header />
+        <NavBar />
         <div className="MovieDetailsBg">
           <MainImg
             backimageurl={`https://image.tmdb.org/t/p/original/${backdropPath}`}

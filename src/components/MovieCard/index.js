@@ -1,17 +1,13 @@
 import {Link} from 'react-router-dom'
 import './index.css'
 
-const MovieItem = props => {
+const MovieCard = props => {
   const {movieDetails} = props
-  const {id, title, voteAverage, posterPath} = movieDetails
+  const {id, title, posterPath, voteAverage} = movieDetails
 
   return (
     <li className="MovieLi">
-      <img
-        className="MovieImg"
-        alt={title}
-        src={`https://image.tmdb.org/t/p/w500${posterPath}`}
-      />
+      <img className="MovieImg" alt={title} src={posterPath} />
       <div className="TitleVoteCont">
         <h1 className="Title">{title}</h1>
         <div className="VoteCont">
@@ -24,11 +20,12 @@ const MovieItem = props => {
         </div>
       </div>
       <button type="button" className="ViewBtn">
-        <Link className="ViewBtnLink" to={`/movie/${id}`}>
+        <Link className="ViewBtnLink" to={`/movie-details/${id}`}>
           View Details
         </Link>
       </button>
     </li>
   )
 }
-export default MovieItem
+
+export default MovieCard

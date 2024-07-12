@@ -1,71 +1,67 @@
-import {Component} from 'react'
-import {Switch, Route} from 'react-router-dom'
+import {useState} from 'react'
+import {Route, Switch} from 'react-router-dom'
 
 import Popular from './components/Popular'
 import TopRated from './components/TopRated'
 import Upcoming from './components/Upcoming'
+import SearchQuery from './components/SearchQuery'
 import MovieDetails from './components/MovieDetails'
-import SearchedResults from './components/SearchedResults'
 
-import PageContext from './context/PageContext'
+import SearchMoviesContext from './context/SearchMoviesContext'
 
-class App extends Component {
-  state = {
-    searchResponse: {},
-    searchInput: '',
-  }
+import './App.css'
 
-  onChangeSearch = text => this.setState({searchInput: text})
+const API_KEY = 'f32b79895b21468afbdd6d5342cbf3da'
 
-  onTriggerSearchBtn = async (pageNo = 1) => {
-    const {searchInput} = this.state
-    const MOVIE_NAME = searchInput
-    const API_KEY = '2b6bed2ca7d926b4afadfb343eebefad'
-    const searchedMovieUrl = `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&language=en-US&query=${MOVIE_NAME}&page=${pageNo}`
+const App = () => {
+  const [searchResponse, setSearchResponse] = useState({})
+  const [apiStatus, setApiStatus] = useState('INITIAL')
+  const [searchInput, setSearchInput] = useState('')
 
-    const options = {
-      method: 'GET',
-    }
+  const onChangeSearchInput = text => setSearchInput(text)
 
-    const response = await fetch(searchedMovieUrl, options)
+  const getUpdatedData = responseData => ({
+    totalPages: responseData.total_pages,
+    totalResults: responseData.total_results,
+    results: responseData.results.map(eachMovie => ({
+      id: eachMovie.id,
+      posterPath: `https://image.tmdb.org/t/p/w500${eachMovie.poster_path}`,
+      voteAverage: eachMovie.vote_average,
+      title: eachMovie.title,
+    })),
+  })
+
+  const onTriggerSearchingQuery = async (page = 1) => {
+    setApiStatus('IN_PROGRESS')
+    const apiUrl = `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&language=en-US&query=${searchInput}&page=${page}`
+
+    const response = await fetch(apiUrl)
     const data = await response.json()
-    const updatedSearchData = {
-      totalPages: data.total_pages,
-      totalResults: data.total_results,
-      results: data.results.map(each => ({
-        id: each.id,
-        posterPath: each.poster_path,
-        voteAverage: each.vote_average,
-        title: each.title,
-      })),
-    }
-    this.setState({
-      searchResponse: updatedSearchData,
-    })
+    setSearchResponse(getUpdatedData(data))
+    setApiStatus('SUCCESS')
   }
 
-  render() {
-    const {searchInput, searchResponse} = this.state
-    return (
-      <PageContext.Provider
-        value={{
-          searchInput,
-          searchResponse,
-          onTriggerSearchBtn: this.onTriggerSearchBtn,
-          onChangeSearch: this.onChangeSearch,
-        }}
-      >
-        <div className="MovieDBBg">
-          <Switch>
-            <Route exact path="/" component={Popular} />
-            <Route exact path="/top-rated" component={TopRated} />
-            <Route exact path="/upcoming" component={Upcoming} />
-            <Route exact path="/movie/:id" component={MovieDetails} />
-            <Route exact path="/searched" component={SearchedResults} />
-          </Switch>
-        </div>
-      </PageContext.Provider>
-    )
-  }
+  return (
+    <SearchMoviesContext.Provider
+      value={{
+        searchResponse,
+        apiStatus,
+        onTriggerSearchingQuery,
+        searchInput,
+        onChangeSearchInput,
+      }}
+    >
+      <div className="MovieDBBg">
+        <Switch>
+          <Route exact path="/" component={Popular} />
+          <Route exact path="/top-rated" component={TopRated} />
+          <Route exact path="/upcoming" component={Upcoming} />
+          <Route exact path="/movie-details/:id" component={MovieDetails} />
+          <Route exact path="/search" component={SearchQuery} />
+        </Switch>
+      </div>
+    </SearchMoviesContext.Provider>
+  )
 }
+
 export default App

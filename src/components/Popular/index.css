@@ -1,3 +1,10 @@
+.loader-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
 /* Popular */
 
 .TopRatedBg {
@@ -69,64 +76,3 @@
   min-height: 150px;
 }
 
-.NavBtnsCont {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-around;
-  padding: 20px;
-  background-color: transparent;
-  width: 100%;
-}
-.NavBtns {
-  color: white;
-  background-color: #ffffff22;
-  border: 1px solid lightblue;
-  border-radius: 5px;
-  cursor: pointer;
-  outline: none;
-  height: 60px;
-  width: 100px;
-  text-align: center;
-  font-weight: bold;
-  font-size: 20px;
-}
-@media (min-width: 992px) {
-  .Section {
-    margin: 20px;
-  }
-
-  .Head {
-    font-size: 35px;
-  }
-
-  .MovieImg {
-    height: 200px;
-    width: 160px;
-  }
-
-  .MovieLi {
-    margin: 15px;
-  }
-
-  .TitleVoteCont {
-    padding: 15px;
-  }
-
-  .Title {
-    font-size: 13px;
-  }
-
-  .ViewBtn {
-    height: 50px;
-    font-size: 18px;
-  }
-
-  .VoteImg {
-    height: 17px;
-    width: 17px;
-  }
-
-  .Vote {
-    font-size: 17px;
-  }
-}

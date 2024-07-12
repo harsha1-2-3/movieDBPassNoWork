@@ -1,18 +1,28 @@
 import {Link, withRouter} from 'react-router-dom'
-import PageContext from '../../context/PageContext'
+
+import SearchMoviesContext from '../../context/SearchMoviesContext'
+
 import './index.css'
 
-const Header = props => {
+const NavBar = props => {
   const renderSearchBar = () => (
-    <PageContext.Consumer>
+    <SearchMoviesContext.Consumer>
       {value => {
-        const {onTriggerSearchBtn, onChangeSearch, searchInput} = value
-        const onChangeHandler = event => onChangeSearch(event.target.value)
-        const onSearchHandler = () => {
+        const {
+          onTriggerSearchingQuery,
+          onChangeSearchInput,
+          searchInput,
+        } = value
+
+        const onChangeHandler = event => onChangeSearchInput(event.target.value)
+
+        const onSearchHandler = event => {
+          event.preventDefault()
           const {history} = props
-          onTriggerSearchBtn()
-          history.replace('/searched')
+          onTriggerSearchingQuery()
+          history.push(`/search`)
         }
+
         return (
           <div className="InputCont">
             <input
@@ -32,12 +42,12 @@ const Header = props => {
           </div>
         )
       }}
-    </PageContext.Consumer>
+    </SearchMoviesContext.Consumer>
   )
 
   return (
     <nav className="HeaderBg">
-      <h1 className="LogoHead">MovieDB</h1>
+      <h1 className="LogoHead">movieDB</h1>
       {renderSearchBar()}
       <ul className="LinksCont">
         <li>
@@ -60,4 +70,4 @@ const Header = props => {
   )
 }
 
-export default withRouter(Header)
+export default withRouter(NavBar)

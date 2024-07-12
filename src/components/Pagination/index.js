@@ -1,13 +1,13 @@
-import {Component} from 'react'
+import React from 'react'
 import './index.css'
 
-class Pagination extends Component {
+class Pagination extends React.Component {
   state = {
     pageNo: 1,
   }
 
   onNextPage = () => {
-    const {apiCallBack, totalPages} = this.props
+    const {apiCallback, totalPages} = this.props
     this.setState(
       prevState => {
         if (prevState.pageNo < totalPages) {
@@ -19,13 +19,13 @@ class Pagination extends Component {
       },
       () => {
         const {pageNo} = this.state
-        apiCallBack(pageNo)
+        apiCallback(pageNo)
       },
     )
   }
 
   onPrevPage = () => {
-    const {apiCallBack} = this.props
+    const {apiCallback} = this.props
     this.setState(
       prevState => {
         if (prevState.pageNo > 1) {
@@ -37,13 +37,14 @@ class Pagination extends Component {
       },
       () => {
         const {pageNo} = this.state
-        apiCallBack(pageNo)
+        apiCallback(pageNo)
       },
     )
   }
 
   render() {
     const {pageNo} = this.state
+
     return (
       <div className="NavBtnsCont">
         <button type="button" className="NavBtns" onClick={this.onPrevPage}>
@@ -57,4 +58,5 @@ class Pagination extends Component {
     )
   }
 }
+
 export default Pagination
