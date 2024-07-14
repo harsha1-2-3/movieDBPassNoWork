@@ -72,6 +72,24 @@ class MovieDetails extends Component {
     })
   }
 
+  renderGenres = () => {
+    const {genresList} = this.state
+
+    if (!genresList.results) {
+      return <div>Loading...</div>
+    }
+
+    return (
+      <ul className="DetailParaUl">
+         {genresList.map(genre => (
+             <li key={genre.id} className="DetailParaLi">
+                {genre.name}
+             </li>
+          ))}
+         </ul>
+    )
+}
+
   minsToHrs = mins => {
     const hrs = Math.floor(mins / 60)
     const balMins = mins % 60
@@ -79,7 +97,7 @@ class MovieDetails extends Component {
   }
 
   render() {
-    const {castList, movieObj, genresList} = this.state
+    const {castList, movieObj} = this.state
     const {
       backdropPath,
       overview,
@@ -120,14 +138,8 @@ class MovieDetails extends Component {
               </div>
               <div className="DetailCont">
                 <h1 className="DetailHead">Genres</h1>
-                <ul className="DetailParaUl">
-                  {genresList.map(genre => (
-                    <li key={genre.id} className="DetailParaLi">
-                      {genre.name}
-                    </li>
-                  ))}
-                </ul>
-              </div>
+{this.renderGenres()}
+                </div>
               <div className="DetailCont">
                 <h1 className="DetailHead">Release Date</h1>
                 <p className="DetailPara">{releaseDate}</p>
